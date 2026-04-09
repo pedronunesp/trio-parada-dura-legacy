@@ -10,6 +10,10 @@ export default defineConfig(({ mode }) => ({
     hmr: {
       overlay: false,
     },
+    allowedHosts: ["trioparadadura.site", "www.trioparadadura.site"],
+  },
+  preview: {
+    allowedHosts: ["trioparadadura.site", "www.trioparadadura.site"],
   },
   plugins: [react()],
   resolve: {
