@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Float, MeshDistortMaterial, Sphere, Torus, RoundedBox } from "@react-three/drei";
+import { Environment, Float, useGLTF, Torus } from "@react-three/drei";
 import * as THREE from "three";
 
 /**
@@ -57,57 +57,15 @@ const useInteractiveRotation = () => {
   return rotation;
 };
 
-/** Stylized figure silhouette — represents one musician */
-const MusicianFigure = ({ position, delay = 0 }: { position: [number, number, number]; delay?: number }) => {
-  const groupRef = useRef<THREE.Group>(null);
-
+/** Component to load and display the GLB model */
+const TrioModel = () => {
+  const { scene } = useGLTF("/Models/result.glb");
+  
+  // Clone to avoid mutation issues if used multiple times, 
+  // though here we only use it once.
   return (
     <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.3} floatingRange={[-0.1, 0.1]}>
-      <group ref={groupRef} position={position}>
-        {/* Head */}
-        <Sphere args={[0.22, 32, 32]} position={[0, 1.55, 0]}>
-          <MeshDistortMaterial
-            color="#c9953c"
-            roughness={0.3}
-            metalness={0.8}
-            distort={0.05}
-            speed={2}
-          />
-        </Sphere>
-        {/* Hat */}
-        <mesh position={[0, 1.78, 0]}>
-          <cylinderGeometry args={[0.3, 0.28, 0.12, 32]} />
-          <meshStandardMaterial color="#8b6914" roughness={0.4} metalness={0.7} />
-        </mesh>
-        <mesh position={[0, 1.72, 0]}>
-          <cylinderGeometry args={[0.45, 0.45, 0.03, 32]} />
-          <meshStandardMaterial color="#8b6914" roughness={0.4} metalness={0.7} />
-        </mesh>
-        {/* Body */}
-        <RoundedBox args={[0.5, 0.8, 0.3]} radius={0.08} position={[0, 0.9, 0]}>
-          <meshStandardMaterial color="#1a1510" roughness={0.6} metalness={0.3} />
-        </RoundedBox>
-        {/* Guitar body */}
-        <group position={[0.15, 0.7, 0.2]} rotation={[0, 0, 0.3]}>
-          <Sphere args={[0.18, 16, 16]} scale={[1, 1.3, 0.4]}>
-            <meshStandardMaterial color="#5c3a1e" roughness={0.5} metalness={0.4} />
-          </Sphere>
-          {/* Neck */}
-          <mesh position={[0, 0.45, 0]}>
-            <boxGeometry args={[0.04, 0.5, 0.03]} />
-            <meshStandardMaterial color="#3d2510" roughness={0.6} metalness={0.2} />
-          </mesh>
-        </group>
-        {/* Legs */}
-        <mesh position={[-0.12, 0.2, 0]}>
-          <cylinderGeometry args={[0.08, 0.07, 0.6, 8]} />
-          <meshStandardMaterial color="#0f0d0a" roughness={0.7} metalness={0.2} />
-        </mesh>
-        <mesh position={[0.12, 0.2, 0]}>
-          <cylinderGeometry args={[0.08, 0.07, 0.6, 8]} />
-          <meshStandardMaterial color="#0f0d0a" roughness={0.7} metalness={0.2} />
-        </mesh>
-      </group>
+      <primitive object={scene} scale={2.5} position={[0, -1, 0]} />
     </Float>
   );
 };
@@ -141,31 +99,27 @@ const Scene = () => {
 
   return (
     <>
-      <ambientLight intensity={0.3} />
-      <directionalLight position={[5, 5, 5]} intensity={1} color="#c9953c" />
-      <directionalLight position={[-3, 3, -3]} intensity={0.4} color="#4a7ab5" />
-      <pointLight position={[0, 3, 2]} intensity={0.8} color="#daa520" distance={10} />
-      <spotLight position={[0, 6, 0]} angle={0.4} penumbra={0.8} intensity={1.5} color="#c9953c" />
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[5, 10, 5]} intensity={1.5} color="#ffffff" />
+      <directionalLight position={[-5, 5, -5]} intensity={0.5} color="#4a7ab5" />
+      <pointLight position={[0, 3, 2]} intensity={1} color="#daa520" distance={15} />
+      <spotLight position={[0, 10, 0]} angle={0.3} penumbra={1} intensity={2} color="#ffffff" />
 
       <group ref={groupRef}>
-        {/* Three musicians */}
-        <MusicianFigure position={[-1.2, -1, 0]} delay={0} />
-        <MusicianFigure position={[0, -0.8, 0.3]} delay={0.5} />
-        <MusicianFigure position={[1.2, -1, 0]} delay={1} />
+        <TrioModel />
 
-        {/* Decorative rings */}
-        <GoldenRing radius={2} y={-0.5} speed={0.15} />
-        <GoldenRing radius={2.5} y={0.5} speed={-0.1} />
-        <GoldenRing radius={1.5} y={1.5} speed={0.2} />
+        {/* Decorative rings preserved but adjusted */}
+        <GoldenRing radius={3} y={-0.5} speed={0.1} />
+        <GoldenRing radius={3.5} y={0.5} speed={-0.08} />
 
         {/* Stage platform */}
-        <mesh position={[0, -1.15, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <circleGeometry args={[2.5, 64]} />
-          <meshStandardMaterial color="#1a1510" roughness={0.8} metalness={0.3} transparent opacity={0.6} />
+        <mesh position={[0, -1.05, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <circleGeometry args={[3.5, 64]} />
+          <meshStandardMaterial color="#000000" roughness={0.5} metalness={0.5} transparent opacity={0.4} />
         </mesh>
       </group>
 
-      <Environment preset="night" />
+      <Environment preset="city" />
     </>
   );
 };
@@ -200,3 +154,5 @@ const Model3DViewer = () => {
 };
 
 export default Model3DViewer;
+
+useGLTF.preload("/Models/result.glb");
