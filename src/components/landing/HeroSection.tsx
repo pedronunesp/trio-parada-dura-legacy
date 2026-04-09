@@ -126,12 +126,30 @@ const HeroSection = () => {
         </motion.div>
       </motion.div>
 
+      {/* 3D Interactive Model */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 1.2 }}
+        className="relative z-10 w-full max-w-4xl mx-auto mt-4"
+      >
+        <Suspense
+          fallback={
+            <div className="w-full h-[400px] md:h-[500px] flex items-center justify-center">
+              <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+            </div>
+          }
+        >
+          <Model3DViewer />
+        </Suspense>
+      </motion.div>
+
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        transition={{ delay: 2 }}
+        className="relative z-10 mt-4 flex flex-col items-center gap-2"
       >
         <span className="font-heading text-[10px] tracking-[0.3em] uppercase text-muted-foreground">
           Explore
