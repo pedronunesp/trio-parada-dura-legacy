@@ -32,7 +32,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section ref={ref} className="relative h-screen min-h-[700px] overflow-hidden flex items-center justify-center">
+    <section ref={ref} className="relative min-h-screen overflow-hidden flex flex-col items-center justify-center pb-8">
       {/* Background image with parallax */}
       <motion.div style={{ y, scale }} className="absolute inset-0">
         <div
