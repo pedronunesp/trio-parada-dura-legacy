@@ -1,8 +1,10 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, lazy, Suspense } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroBand from "@/assets/hero-band.jpg";
+
+const Model3DViewer = lazy(() => import("./Model3DViewer"));
 
 const HeroSection = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -30,7 +32,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section ref={ref} className="relative h-screen min-h-[700px] overflow-hidden flex items-center justify-center">
+    <section ref={ref} className="relative min-h-screen overflow-hidden flex flex-col items-center justify-center pb-8">
       {/* Background image with parallax */}
       <motion.div style={{ y, scale }} className="absolute inset-0">
         <div
@@ -124,12 +126,30 @@ const HeroSection = () => {
         </motion.div>
       </motion.div>
 
+      {/* 3D Interactive Model */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 1.2 }}
+        className="relative z-10 w-full max-w-4xl mx-auto mt-4"
+      >
+        <Suspense
+          fallback={
+            <div className="w-full h-[400px] md:h-[500px] flex items-center justify-center">
+              <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+            </div>
+          }
+        >
+          <Model3DViewer />
+        </Suspense>
+      </motion.div>
+
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        transition={{ delay: 2 }}
+        className="relative z-10 mt-4 flex flex-col items-center gap-2"
       >
         <span className="font-heading text-[10px] tracking-[0.3em] uppercase text-muted-foreground">
           Explore
