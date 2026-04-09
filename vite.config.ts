@@ -10,10 +10,10 @@ export default defineConfig(({ mode }) => ({
     hmr: {
       overlay: false,
     },
-    allowedHosts: ["trioparadadura.site", "www.trioparadadura.site"],
+    allowedHosts: ["trioparadadura.site", "www.trioparadadura.site", "trio-parada-dura-legacy.onrender.com"],
   },
   preview: {
-    allowedHosts: ["trioparadadura.site", "www.trioparadadura.site"],
+    allowedHosts: ["trioparadadura.site", "www.trioparadadura.site", "trio-parada-dura-legacy.onrender.com"],
   },
   plugins: [react()],
   resolve: {

@@ -2,7 +2,7 @@ import { useRef, useEffect, useState, lazy, Suspense } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import heroBand from "@/assets/hero-band.jpg";
+import heroBand from "@/assets/hero-bg-new.jpg";
 
 const Model3DViewer = lazy(() => import("./Model3DViewer"));
 
