@@ -8,6 +8,7 @@ import {
   ArrowRight, Check, Loader2
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import heroMediakit from "@/assets/hero-mediakit.jpg";
 
 type DriveFile = {
   id: string;
@@ -97,17 +98,57 @@ const MediaKit = () => {
       <Header />
       <main className="pt-24">
         {/* Hero */}
-        <section className="section-padding py-16 md:py-24">
-          <div className="max-w-5xl mx-auto text-center">
+        <section className="relative section-padding py-24 md:py-32 flex flex-col items-center justify-center min-h-[60vh] overflow-hidden mt-0">
+          {/* Background image with parallax/overlay */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src={heroMediakit}
+              alt="Mídia Kit Background"
+              className="w-full h-full object-cover opacity-30"
+              style={{ objectPosition: "center" }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/60 to-background" />
+            <div className="absolute inset-0" style={{ background: "var(--gradient-radial-gold)" }} />
+          </div>
+
+          <div className="relative z-10 max-w-5xl mx-auto text-center w-full">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
               <span className="font-heading text-xs tracking-[0.3em] uppercase text-primary mb-4 block">Materiais Oficiais</span>
               <h1 className="font-display text-4xl md:text-6xl font-bold mb-4">
                 Mídia <span className="text-gradient-gold">Kit</span>
               </h1>
-              <p className="text-foreground/60 max-w-lg mx-auto leading-relaxed">
+              <p className="text-foreground/80 max-w-lg mx-auto leading-relaxed mb-10">
                 Acesse fotos oficiais, logos, releases, riders técnicos e todos os materiais
                 necessários para imprensa, contratações e parcerias.
               </p>
+            </motion.div>
+
+            {/* Quick Access Grid */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto"
+            >
+              {[
+                { name: "Logos", icon: Image, filter: "image" },
+                { name: "Clips", icon: Film, filter: "video" },
+                { name: "Fotos", icon: Image, filter: "image" },
+                { name: "Riders", icon: FileText, filter: "document" },
+                { name: "Vídeos Shows", icon: Film, filter: "video" }
+              ].map((item, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => {
+                    setFilter(item.filter);
+                    document.getElementById('files-section')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="glass-panel hover-lift rounded-xl p-4 flex flex-col items-center justify-center gap-3 group transition-colors hover:bg-primary/10 border border-primary/20 hover:border-primary/50"
+                >
+                  <item.icon size={24} className="text-primary/60 group-hover:text-primary transition-colors" />
+                  <span className="font-heading text-xs tracking-wider uppercase">{item.name}</span>
+                </button>
+              ))}
             </motion.div>
           </div>
         </section>
