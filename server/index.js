@@ -369,8 +369,8 @@ app.delete("/api/admin/media/:id", requireAdmin, async (req, res) => {
 
 app.use(express.static(distDir));
 
-app.get("*", async (req, res, next) => {
-  if (req.path.startsWith("/api/")) {
+app.use(async (req, res, next) => {
+  if (req.method !== "GET" || req.path.startsWith("/api/")) {
     next();
     return;
   }

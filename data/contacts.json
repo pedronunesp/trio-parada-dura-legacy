@@ -1,0 +1,32 @@
+[
+  {
+    "id": "33a614ce-bd8b-4a04-a5f7-a5247a63981d",
+    "name": "Agenda",
+    "description": "Shows, datas e disponibilidade",
+    "href": "https://wa.me/5511986896001?text=Ol%C3%A1!%20Quero%20falar%20com%20a%20agenda%20do%20Trio%20Parada%20Dura."
+  },
+  {
+    "id": "0b409248-35da-4330-a79a-74a03bef2438",
+    "name": "Produção",
+    "description": "Rider, palco e operação do evento",
+    "href": "https://wa.me/5511986896001?text=Ol%C3%A1!%20Quero%20falar%20com%20a%20produ%C3%A7%C3%A3o%20do%20Trio%20Parada%20Dura."
+  },
+  {
+    "id": "a4994823-0d5f-4e66-bff5-56619b4a9935",
+    "name": "Financeiro",
+    "description": "Contratos, pagamentos e documentação",
+    "href": "https://wa.me/5511986896001?text=Ol%C3%A1!%20Quero%20falar%20com%20o%20financeiro%20do%20Trio%20Parada%20Dura."
+  },
+  {
+    "id": "e5c506e9-2136-423e-9568-78e2471aa01f",
+    "name": "Marketing",
+    "description": "Parcerias, campanhas e ativações",
+    "href": "https://wa.me/5511986896001?text=Ol%C3%A1!%20Quero%20falar%20com%20o%20marketing%20do%20Trio%20Parada%20Dura."
+  },
+  {
+    "id": "5e690438-3eeb-452e-9767-7be3c194e745",
+    "name": "Imprensa",
+    "description": "Release, mídia kit e atendimento editorial",
+    "href": "https://wa.me/5511986896001?text=Ol%C3%A1!%20Quero%20falar%20com%20a%20imprensa%20do%20Trio%20Parada%20Dura."
+  }
+]
