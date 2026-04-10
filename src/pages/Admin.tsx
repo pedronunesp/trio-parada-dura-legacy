@@ -5,20 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 import {
-  mediaKitApi,
-  type ContactChannel,
+  getMediaCategoryLabel,
+  mediaKitCategories,
   type MediaCategory,
-  type MediaEntry,
-} from "@/lib/media-kit-api";
+} from "@/content/media-kit-categories";
+import { useToast } from "@/hooks/use-toast";
+import { mediaKitApi, type ContactChannel, type MediaEntry } from "@/lib/media-kit-api";
 import { Loader2, LogOut, Pencil, Plus, Trash2, Upload } from "lucide-react";
-
-const categories: Array<{ label: string; value: MediaCategory }> = [
-  { label: "Imagem", value: "image" },
-  { label: "Documento", value: "document" },
-  { label: "Vídeo", value: "video" },
-];
 
 const formatDate = (value: string) =>
   new Date(value).toLocaleString("pt-BR", {
@@ -52,7 +46,7 @@ const Admin = () => {
   const [contactForm, setContactForm] = useState(emptyContactForm);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState<MediaCategory>("image");
+  const [category, setCategory] = useState<MediaCategory>("fotos");
   const [file, setFile] = useState<File | null>(null);
 
   const selectedFileLabel = useMemo(() => {
@@ -120,7 +114,7 @@ const Admin = () => {
       setAdminName(session.username);
       setPassword("");
       await Promise.all([loadEntries(), loadContacts()]);
-      toast({ title: "Acesso liberado", description: "Painel administrativo carregado." });
+      toast({ title: "Acesso liberado", description: "Painel carregado." });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Não foi possível entrar.";
       toast({ title: "Falha no login", description: message, variant: "destructive" });
@@ -158,7 +152,7 @@ const Admin = () => {
       setEntries((current) => [created, ...current]);
       setTitle("");
       setDescription("");
-      setCategory("image");
+      setCategory("fotos");
       setFile(null);
       toast({ title: "Upload concluído", description: created.title });
     } catch (error) {
@@ -242,7 +236,7 @@ const Admin = () => {
             <p className="font-heading text-xs tracking-[0.3em] uppercase text-primary mb-3">Admin</p>
             <h1 className="font-display text-4xl md:text-5xl font-bold mb-4">Painel do Mídia Kit</h1>
             <p className="text-foreground/65 max-w-2xl">
-              Faça login para enviar os arquivos reais do mídia kit e gerenciar os contatos exibidos na home.
+              Login para gerenciar arquivos e contatos da home.
             </p>
           </div>
 
@@ -294,7 +288,12 @@ const Admin = () => {
                     <form className="space-y-5" onSubmit={handleUpload}>
                       <div className="space-y-2">
                         <Label htmlFor="title">Título</Label>
-                        <Input id="title" value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Nome público do arquivo" />
+                        <Input
+                          id="title"
+                          value={title}
+                          onChange={(event) => setTitle(event.target.value)}
+                          placeholder="Nome público do arquivo"
+                        />
                       </div>
 
                       <div className="space-y-2">
@@ -303,7 +302,7 @@ const Admin = () => {
                           id="description"
                           value={description}
                           onChange={(event) => setDescription(event.target.value)}
-                          placeholder="Contexto do material para imprensa e contratantes"
+                          placeholder="Resumo curto do material"
                           rows={4}
                         />
                       </div>
@@ -316,7 +315,7 @@ const Admin = () => {
                           onChange={(event) => setCategory(event.target.value as MediaCategory)}
                           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                         >
-                          {categories.map((item) => (
+                          {mediaKitCategories.map((item) => (
                             <option key={item.value} value={item.value}>
                               {item.label}
                             </option>
@@ -496,7 +495,7 @@ const Admin = () => {
                               Abrir arquivo
                             </a>
                             <span className="inline-flex items-center rounded-full border border-border/60 px-4 py-2 text-xs text-muted-foreground">
-                              {entry.category}
+                              {getMediaCategoryLabel(entry.category)}
                             </span>
                           </div>
                         </div>

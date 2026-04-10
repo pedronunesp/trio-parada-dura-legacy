@@ -56,6 +56,16 @@ const defaultContacts = [
   },
 ];
 
+const mediaCategories = [
+  { id: "logos", label: "Logos" },
+  { id: "clips", label: "Clips" },
+  { id: "fotos", label: "Fotos" },
+  { id: "riders", label: "Riders" },
+  { id: "videos-shows", label: "Vídeos Shows" },
+];
+
+const mediaCategoryIds = new Set(mediaCategories.map((item) => item.id));
+
 const mimeCategoryMap = {
   image: ["image/"],
   video: ["video/"],
@@ -80,9 +90,49 @@ const slugify = (value) =>
     .slice(0, 60);
 
 const detectCategory = (mimeType) => {
-  if (mimeCategoryMap.image.some((prefix) => mimeType.startsWith(prefix))) return "image";
-  if (mimeCategoryMap.video.some((prefix) => mimeType.startsWith(prefix))) return "video";
-  return "document";
+  if (mimeCategoryMap.image.some((prefix) => mimeType.startsWith(prefix))) return "fotos";
+  if (mimeCategoryMap.video.some((prefix) => mimeType.startsWith(prefix))) return "videos-shows";
+  return "riders";
+};
+
+const detectCategoryFromName = (...values) => {
+  const ref = slugify(values.filter(Boolean).join(" "));
+
+  if (ref.includes("logo")) return "logos";
+  if (ref.includes("clip")) return "clips";
+  if (ref.includes("foto") || ref.includes("photo") || ref.includes("imagem")) return "fotos";
+  if (ref.includes("rider")) return "riders";
+  if (ref.includes("video") || ref.includes("show")) return "videos-shows";
+
+  return null;
+};
+
+const normalizeMediaCategory = (value, mimeType = "", ...nameHints) => {
+  const normalized = slugify(`${value || ""}`);
+
+  if (mediaCategoryIds.has(normalized)) {
+    return normalized;
+  }
+
+  if (normalized === "image" || normalized === "imagem" || normalized === "imagens") {
+    return detectCategoryFromName(...nameHints) || "fotos";
+  }
+
+  if (normalized === "video" || normalized === "videos") {
+    return detectCategoryFromName(...nameHints) || "videos-shows";
+  }
+
+  if (
+    normalized === "document" ||
+    normalized === "documento" ||
+    normalized === "documentos" ||
+    normalized === "spreadsheet" ||
+    normalized === "planilha"
+  ) {
+    return detectCategoryFromName(...nameHints) || "riders";
+  }
+
+  return detectCategoryFromName(...nameHints) || detectCategory(mimeType);
 };
 
 const createSessionSignature = (payload) =>
@@ -139,7 +189,18 @@ const ensureStorage = async () => {
 const readMediaEntries = async () => {
   await ensureStorage();
   const raw = await fs.readFile(metadataFile, "utf8");
-  return JSON.parse(raw);
+  const entries = JSON.parse(raw);
+
+  return entries.map((entry) => ({
+    ...entry,
+    category: normalizeMediaCategory(
+      entry.category,
+      entry.mimeType,
+      entry.title,
+      entry.originalName,
+      entry.fileName,
+    ),
+  }));
 };
 
 const writeMediaEntries = async (entries) => {
@@ -249,9 +310,12 @@ app.post("/api/admin/media", requireAdmin, upload.single("file"), async (req, re
 
   const title = `${req.body.title || ""}`.trim() || req.file.originalname;
   const description = `${req.body.description || ""}`.trim();
-  const category = ["image", "video", "document"].includes(req.body.category)
-    ? req.body.category
-    : detectCategory(req.file.mimetype);
+  const category = normalizeMediaCategory(
+    req.body.category,
+    req.file.mimetype,
+    title,
+    req.file.originalname,
+  );
 
   const entry = {
     id: crypto.randomUUID(),
