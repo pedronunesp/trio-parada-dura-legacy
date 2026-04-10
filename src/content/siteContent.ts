@@ -1,8 +1,8 @@
 export const bookingPhoneDigits = "5511986896001";
 export const bookingPhoneDisplay = "(11) 9 8689-6001";
 export const bookingPhoneHref = `tel:+${bookingPhoneDigits}`;
-export const officialWebsiteLabel = "trioparadadura.art.br";
-export const officialWebsiteHref = "https://trioparadadura.art.br";
+export const officialWebsiteLabel = "trioparadadura.site";
+export const officialWebsiteHref = "https://trioparadadura.site";
 
 export const createWhatsAppHref = (message: string) =>
   `https://wa.me/${bookingPhoneDigits}?text=${encodeURIComponent(message)}`;
