@@ -25,7 +25,7 @@ const platformLinks = [
   },
   {
     label: "Spotify",
-    href: "https://open.spotify.com/search/Trio%20Parada%20Dura/artists",
+    href: "https://open.spotify.com/artist/41fjoh5NjJhlDHYIUb9Hsk",
     icon: Music2,
   },
   {
@@ -41,7 +41,7 @@ const platformLinks = [
 ];
 
 const primaryButtonClass =
-  "font-heading text-sm tracking-widest uppercase px-8 py-4 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary transition-all duration-300 glow-gold inline-flex items-center justify-center gap-3";
+  "font-heading text-[11px] md:text-sm tracking-[0.18em] md:tracking-widest uppercase px-5 md:px-8 py-2.5 md:py-4 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary transition-all duration-300 glow-gold inline-flex items-center justify-center gap-2 md:gap-3";
 
 const HeroSection = () => {
   const [contactOpen, setContactOpen] = useState(false);
@@ -100,7 +100,7 @@ const HeroSection = () => {
               e presença viva nos palcos, no streaming e na memória afetiva do Brasil.
             </p>
 
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-4 mb-10">
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-2.5 md:gap-4 mb-6 md:mb-10">
               <Link to="/midiakit" className={primaryButtonClass}>
                 Acessar Mídia Kit
                 <ArrowRight size={16} />
