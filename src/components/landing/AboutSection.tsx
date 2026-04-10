@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import galleryGuitar from "@/assets/gallery-guitar.jpg";
+import { aboutParagraphs } from "@/content/siteContent";
 
 const AboutSection = () => {
   const ref = useRef(null);
@@ -9,7 +9,10 @@ const AboutSection = () => {
 
   return (
     <section ref={ref} className="relative py-24 md:py-40 section-padding overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full opacity-20" style={{ background: "var(--gradient-radial-gold)" }} />
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full opacity-20"
+        style={{ background: "var(--gradient-radial-gold)" }}
+      />
 
       <div className="relative max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <motion.div
@@ -25,22 +28,18 @@ const AboutSection = () => {
             <br />
             <span className="text-gradient-gold">em acordes</span>
           </h2>
+
           <div className="space-y-6 text-foreground/60 leading-relaxed">
-            <p>
-              O Trio Parada Dura é um dos maiores grupos da história da música sertaneja brasileira. 
-              Com uma trajetória que ultrapassa cinco décadas, a banda construiu um legado incomparável, 
-              marcado por sucessos que se tornaram hinos de uma nação inteira.
-            </p>
-            <p>
-              De palcos em pequenas cidades do interior aos maiores estádios e festivais do Brasil, 
-              o Trio carrega em cada acorde a autenticidade, a paixão e a verdade da raiz sertaneja — 
-              reinterpretada com a energia e a grandeza que apenas os grandes artistas conseguem alcançar.
-            </p>
+            {aboutParagraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
           </div>
 
           <div className="mt-10 flex items-center gap-6">
             <div className="h-px flex-1 bg-gradient-to-r from-primary/30 to-transparent" />
-            <span className="font-display text-sm italic text-primary/60">"A voz do sertão"</span>
+            <span className="font-display text-sm italic text-primary/60">
+              "A majestade sertaneja continua no reinado"
+            </span>
           </div>
         </motion.div>
 
@@ -60,6 +59,14 @@ const AboutSection = () => {
               height={1000}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+            <div className="absolute left-6 bottom-6 glass-panel rounded-2xl px-5 py-4 max-w-xs">
+              <p className="font-heading text-[11px] tracking-[0.28em] uppercase text-primary mb-2">
+                Clássicos
+              </p>
+              <p className="text-sm text-foreground/80 leading-relaxed">
+                "Castelo de Amor", "Telefone Mudo", "As Andorinhas", "Blusa Vermelha" e "Último Adeus".
+              </p>
+            </div>
           </div>
           <div className="absolute -bottom-6 -left-6 w-32 h-32 border border-primary/20 rounded-2xl" />
           <div className="absolute -top-6 -right-6 w-24 h-24 border border-primary/10 rounded-full" />

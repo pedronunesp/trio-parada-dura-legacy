@@ -1,6 +1,13 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Mail, Phone, MessageCircle, ArrowRight } from "lucide-react";
+import { Globe, Phone, MessageCircle, ArrowRight } from "lucide-react";
+import {
+  bookingPhoneDisplay,
+  bookingPhoneHref,
+  createWhatsAppHref,
+  officialWebsiteHref,
+  officialWebsiteLabel,
+} from "@/content/siteContent";
 
 const ContactSection = () => {
   const ref = useRef(null);
@@ -10,23 +17,23 @@ const ContactSection = () => {
     {
       icon: MessageCircle,
       title: "WhatsApp",
-      desc: "Fale diretamente com a equipe",
+      desc: "Atendimento direto para shows, agendas e informações comerciais",
       action: "Enviar Mensagem",
-      href: "https://wa.me/5500000000000",
-    },
-    {
-      icon: Mail,
-      title: "E-mail",
-      desc: "Para contratações e assessoria",
-      action: "Enviar E-mail",
-      href: "mailto:contato@trioparadadura.com.br",
+      href: createWhatsAppHref("Olá! Quero informações sobre shows do Trio Parada Dura."),
     },
     {
       icon: Phone,
       title: "Telefone",
-      desc: "Atendimento comercial",
+      desc: `${bookingPhoneDisplay} para atendimento comercial`,
       action: "Ligar Agora",
-      href: "tel:+5500000000000",
+      href: bookingPhoneHref,
+    },
+    {
+      icon: Globe,
+      title: "Site Oficial",
+      desc: "Canal institucional e presença oficial da banda",
+      action: "Abrir Site",
+      href: officialWebsiteHref,
     },
   ];
 
@@ -39,10 +46,11 @@ const ContactSection = () => {
         >
           <span className="font-heading text-xs tracking-[0.3em] uppercase text-primary mb-4 block">Contato</span>
           <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
-            Vamos <span className="text-gradient-gold">conversar</span>
+            Leve o Trio Parada Dura para o seu <span className="text-gradient-gold">evento</span>
           </h2>
-          <p className="text-foreground/60 max-w-md mx-auto mb-16">
-            Para contratações, parcerias, imprensa ou qualquer outra demanda, nossa equipe está pronta para atendê-lo.
+          <p className="text-foreground/60 max-w-2xl mx-auto mb-16 leading-relaxed">
+            Com agenda ativa e repertório consagrado, a equipe está pronta para atender contratações,
+            imprensa, parcerias e demandas de produção.
           </p>
         </motion.div>
 
@@ -67,6 +75,22 @@ const ContactSection = () => {
             </motion.a>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="mt-10 glass-panel rounded-3xl px-8 py-7 flex flex-col lg:flex-row items-center justify-between gap-6 text-left"
+        >
+          <div>
+            <p className="font-heading text-[11px] uppercase tracking-[0.28em] text-primary mb-2">Contato principal</p>
+            <p className="font-display text-3xl md:text-4xl text-gradient-gold font-bold">{bookingPhoneDisplay}</p>
+          </div>
+          <div className="text-sm text-foreground/65 max-w-xl">
+            Disponível para eventos em todo o Brasil, com suporte comercial e institucional pelo WhatsApp,
+            telefone e site oficial {officialWebsiteLabel}.
+          </div>
+        </motion.div>
       </div>
     </section>
   );

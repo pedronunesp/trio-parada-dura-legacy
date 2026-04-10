@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
-import { Instagram, Youtube, Mail, Phone } from "lucide-react";
+import { Globe, Phone, MessageCircle } from "lucide-react";
+import {
+  bookingPhoneDisplay,
+  bookingPhoneHref,
+  createWhatsAppHref,
+  officialWebsiteHref,
+  officialWebsiteLabel,
+} from "@/content/siteContent";
 
 const Footer = () => {
   return (
@@ -12,8 +19,8 @@ const Footer = () => {
               TRIO PARADA DURA
             </h3>
             <p className="text-muted-foreground max-w-md leading-relaxed text-sm">
-              Mais de cinco décadas de história, emoção e música que atravessa gerações.
-              O legado vivo da música sertaneja brasileira.
+              Mais de cinco décadas de história, repertório consagrado e presença viva em shows,
+              mídia e plataformas digitais. Um legado sertanejo em plena atividade.
             </p>
           </div>
 
@@ -24,7 +31,14 @@ const Footer = () => {
             <nav className="flex flex-col gap-3">
               <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Início</Link>
               <Link to="/midiakit" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Mídia Kit</Link>
-              <a href="#contato" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contato</a>
+              <a
+                href={createWhatsAppHref("Olá! Quero informações sobre shows do Trio Parada Dura.")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Contato
+              </a>
             </nav>
           </div>
 
@@ -33,16 +47,28 @@ const Footer = () => {
               Contato
             </h4>
             <div className="flex flex-col gap-3">
-              <a href="mailto:contato@trioparadadura.com.br" className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
-                <Mail size={14} /> contato@trioparadadura.com.br
+              <a
+                href={bookingPhoneHref}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
+              >
+                <Phone size={14} /> {bookingPhoneDisplay}
               </a>
-              <a href="tel:+5500000000000" className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
-                <Phone size={14} /> (00) 00000-0000
+              <a
+                href={createWhatsAppHref("Olá! Quero falar com a equipe do Trio Parada Dura.")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
+              >
+                <MessageCircle size={14} /> WhatsApp da equipe
               </a>
-            </div>
-            <div className="flex gap-4 mt-6">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Instagram"><Instagram size={20} /></a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" aria-label="YouTube"><Youtube size={20} /></a>
+              <a
+                href={officialWebsiteHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
+              >
+                <Globe size={14} /> {officialWebsiteLabel}
+              </a>
             </div>
           </div>
         </div>
@@ -52,7 +78,7 @@ const Footer = () => {
             © {new Date().getFullYear()} Trio Parada Dura. Todos os direitos reservados.
           </p>
           <p className="text-xs text-muted-foreground">
-            Site oficial · Assessoria de imprensa e contratações
+            Site oficial · Contratações, imprensa e materiais institucionais
           </p>
         </div>
       </div>

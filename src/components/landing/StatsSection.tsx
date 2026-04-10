@@ -3,10 +3,10 @@ import { useRef } from "react";
 import { Disc3, Users, CalendarDays, Award } from "lucide-react";
 
 const stats = [
-  { icon: Disc3, value: "40+", label: "Álbuns Lançados", desc: "Discografia completa" },
-  { icon: Users, value: "50M+", label: "Fãs pelo Brasil", desc: "Público fiel e apaixonado" },
-  { icon: CalendarDays, value: "50+", label: "Anos de Estrada", desc: "Legado consolidado" },
-  { icon: Award, value: "100+", label: "Prêmios", desc: "Reconhecimentos nacionais" },
+  { icon: Disc3, value: "100M+", label: "Discos vendidos", desc: "Uma trajetória histórica no sertanejo" },
+  { icon: Users, value: "1.5M+", label: "Ouvintes mensais", desc: "Força contínua no streaming" },
+  { icon: CalendarDays, value: "50+", label: "Anos de estrada", desc: "Legado ativo desde 1973" },
+  { icon: Award, value: "17", label: "Certificados de venda", desc: "Reconhecimento comercial da carreira" },
 ];
 
 const StatsSection = () => {
@@ -25,7 +25,10 @@ const StatsSection = () => {
               transition={{ duration: 0.6, delay: i * 0.1 }}
               className="glass-panel rounded-2xl p-6 md:p-8 text-center hover-lift group"
             >
-              <stat.icon className="mx-auto mb-4 text-primary/60 group-hover:text-primary transition-colors" size={28} />
+              <stat.icon
+                className="mx-auto mb-4 text-primary/60 group-hover:text-primary transition-colors"
+                size={28}
+              />
               <div className="font-display text-3xl md:text-4xl font-bold text-gradient-gold mb-2">
                 {stat.value}
               </div>

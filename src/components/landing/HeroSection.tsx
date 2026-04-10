@@ -1,163 +1,125 @@
-import { useRef, useEffect, useState, lazy, Suspense } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ChevronDown, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, Facebook, Instagram, Music2, Youtube } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroBand from "@/assets/hero-bg-new.png";
+import { createWhatsAppHref } from "@/content/siteContent";
 
-const Model3DViewer = lazy(() => import("./Model3DViewer"));
+const platformLinks = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/trioparadadura",
+    icon: Instagram,
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/channel/UC10bc436tdXaMUpENud-daQ",
+    icon: Youtube,
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/otrioparadadura",
+    icon: Facebook,
+  },
+  {
+    label: "Palco MP3",
+    href: "https://www.palcomp3.com.br/otrioparadadura/",
+    icon: Music2,
+  },
+];
+
+const primaryButtonClass =
+  "font-heading text-sm tracking-widest uppercase px-8 py-4 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary transition-all duration-300 glow-gold inline-flex items-center justify-center gap-3";
 
 const HeroSection = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
-
-  useEffect(() => {
-    const handleMove = (e: MouseEvent | TouchEvent) => {
-      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-      setMousePos({
-        x: (clientX / window.innerWidth - 0.5) * 20,
-        y: (clientY / window.innerHeight - 0.5) * 20,
-      });
-    };
-    window.addEventListener("mousemove", handleMove);
-    window.addEventListener("touchmove", handleMove);
-    return () => {
-      window.removeEventListener("mousemove", handleMove);
-      window.removeEventListener("touchmove", handleMove);
-    };
-  }, []);
-
   return (
-    <section ref={ref} className="relative min-h-screen overflow-hidden flex flex-col items-center justify-start pt-32 md:pt-40 pb-8">
-      {/* Background image with parallax */}
-      <motion.div style={{ y, scale }} className="absolute inset-0">
-        <div
-          className="absolute inset-0 transition-transform duration-700 ease-out"
-          style={{ transform: `translate(${mousePos.x * 0.5}px, ${mousePos.y * 0.5}px) scale(1.1)` }}
-        >
-          <img
-            src={heroBand}
-            alt="Trio Parada Dura em show ao vivo"
-            className="w-full h-full object-cover"
-            width={1920}
-            height={1080}
-          />
-        </div>
-        {/* Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/30 to-background" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-transparent to-background/70" />
+    <section id="contato" className="relative min-h-screen overflow-hidden flex items-center justify-center py-32">
+      <div className="absolute inset-0">
+        <img
+          src={heroBand}
+          alt="Trio Parada Dura em show ao vivo"
+          className="w-full h-full object-cover"
+          width={1920}
+          height={1080}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/55 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/30 to-background/70" />
         <div className="absolute inset-0" style={{ background: "var(--gradient-radial-gold)" }} />
-      </motion.div>
-
-      {/* Floating particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div
-            key={i}
-            className="particle"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 8}s`,
-              animationDuration: `${6 + Math.random() * 6}s`,
-            }}
-          />
-        ))}
       </div>
 
-      {/* Content */}
-      <motion.div style={{ opacity }} className="relative z-10 text-center section-padding max-w-5xl mx-auto">
+      <div className="relative z-10 section-padding w-full">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-5xl mx-auto text-center"
         >
           <span className="font-heading text-xs md:text-sm tracking-[0.3em] uppercase text-primary/80 mb-6 block">
-            Lendas da Música Sertaneja
+            Mais de 50 anos de história
           </span>
-        </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4 }}
-          className="font-display text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold mb-6 leading-[0.9] tracking-tight"
-        >
-          <span className="text-gradient-gold glow-gold-text">TRIO</span>
-          <br />
-          <span className="text-foreground">PARADA</span>
-          <br />
-          <span className="text-gradient-gold glow-gold-text">DURA</span>
-        </motion.h1>
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold mb-6 leading-[0.9] tracking-tight">
+            <span className="text-gradient-gold glow-gold-text">TRIO</span>
+            <br />
+            <span className="text-foreground">PARADA</span>
+            <br />
+            <span className="text-gradient-gold glow-gold-text">DURA</span>
+          </h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.7 }}
-          className="font-body text-base md:text-lg text-foreground/60 max-w-xl mx-auto mb-10 leading-relaxed"
-        >
-          Mais de 50 anos de história, emoção e a força inabalável
-          da música que é a alma do Brasil.
-        </motion.p>
+          <p className="font-body text-base md:text-lg text-foreground/70 max-w-2xl mx-auto mb-12 leading-relaxed">
+            O legado sertanejo que atravessa gerações com clássicos imortais, presença forte nos palcos
+            e uma história marcante na música brasileira.
+          </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <Link
-            to="/midiakit"
-            className="group font-heading text-sm tracking-widest uppercase px-8 py-4 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 glow-gold flex items-center gap-3"
-          >
-            Acessar Mídia Kit
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <a
-            href="#contato"
-            className="font-heading text-sm tracking-widest uppercase px-8 py-4 rounded-full border border-primary/30 text-primary hover:bg-primary/10 transition-all duration-300"
-          >
-            Solicitar Contato
-          </a>
-        </motion.div>
-      </motion.div>
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-4 mb-12">
+            <Link to="/midiakit" className={primaryButtonClass}>
+              Acessar Mídia Kit
+              <ArrowRight size={16} />
+            </Link>
 
-      {/* 3D Interactive Model */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 1.2 }}
-        className="relative z-10 w-full max-w-4xl mx-auto mt-4"
-      >
-        <Suspense
-          fallback={
-            <div className="w-full h-[400px] md:h-[500px] flex items-center justify-center">
-              <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+            <a
+              href="/conheca-sua-historia.html"
+              className={primaryButtonClass}
+            >
+              Conheça Sua História
+              <ArrowRight size={16} />
+            </a>
+
+            <a
+              href={createWhatsAppHref("Olá! Quero informações sobre shows do Trio Parada Dura.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={primaryButtonClass}
+            >
+              Solicitar Contato
+              <ArrowRight size={16} />
+            </a>
+          </div>
+
+          <div className="glass-panel rounded-3xl p-6 md:p-8 max-w-4xl mx-auto">
+            <p className="font-heading text-xs tracking-[0.3em] uppercase text-primary mb-5">
+              Plataformas Oficiais
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              {platformLinks.map((platform) => {
+                const Icon = platform.icon;
+
+                return (
+                  <a
+                    key={platform.label}
+                    href={platform.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-background/35 px-5 py-3 text-sm text-foreground hover:border-primary hover:bg-primary/10 transition-colors"
+                  >
+                    <Icon size={16} className="text-primary" />
+                    <span>{platform.label}</span>
+                  </a>
+                );
+              })}
             </div>
-          }
-        >
-          <Model3DViewer />
-        </Suspense>
-      </motion.div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-        className="relative z-10 mt-4 flex flex-col items-center gap-2"
-      >
-        <span className="font-heading text-[10px] tracking-[0.3em] uppercase text-muted-foreground">
-          Explore
-        </span>
-        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity }}>
-          <ChevronDown size={20} className="text-primary/60" />
+          </div>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 };

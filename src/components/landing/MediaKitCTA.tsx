@@ -37,8 +37,8 @@ const MediaKitCTA = () => {
               Acesse o <span className="text-gradient-gold">Mídia Kit</span> Oficial
             </h2>
             <p className="text-foreground/60 max-w-lg mx-auto mb-10 leading-relaxed">
-              Fotos oficiais, logos, materiais de imprensa, riders técnicos e tudo que você precisa
-              para divulgar, contratar ou cobrir o Trio Parada Dura.
+              Release atualizado, formação atual, fotos oficiais, identidade visual, rider técnico
+              e referências institucionais para imprensa, contratantes e parceiros.
             </p>
 
             <Link

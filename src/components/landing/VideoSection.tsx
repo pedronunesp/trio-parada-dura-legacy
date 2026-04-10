@@ -1,12 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Play } from "lucide-react";
-
-const videos = [
-  { title: "Show Completo — Arena Nacional", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg", id: "dQw4w9WgXcQ" },
-  { title: "Clipe Oficial — Hits Eternos", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg", id: "dQw4w9WgXcQ" },
-  { title: "Bastidores da Turnê 2024", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg", id: "dQw4w9WgXcQ" },
-];
+import { essentialSongs } from "@/content/siteContent";
 
 const VideoSection = () => {
   const ref = useRef(null);
@@ -20,35 +15,34 @@ const VideoSection = () => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           className="text-center mb-16"
         >
-          <span className="font-heading text-xs tracking-[0.3em] uppercase text-primary mb-4 block">Vídeos</span>
+          <span className="font-heading text-xs tracking-[0.3em] uppercase text-primary mb-4 block">Repertório</span>
           <h2 className="font-display text-4xl md:text-5xl font-bold">
-            Em <span className="text-gradient-gold">movimento</span>
+            Clássicos que seguem <span className="text-gradient-gold">em movimento</span>
           </h2>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {videos.map((video, i) => (
-            <motion.a
-              key={i}
-              href={`https://youtube.com/watch?v=${video.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
+          {essentialSongs.map((song, i) => (
+            <motion.div
+              key={song.title}
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="group relative rounded-2xl overflow-hidden aspect-video hover-lift block"
+              className="group relative rounded-2xl overflow-hidden min-h-[280px] glass-panel hover-lift"
             >
-              <div className="absolute inset-0 bg-muted animate-pulse" />
-              <div className="absolute inset-0 bg-background/50 group-hover:bg-background/30 transition-all duration-500 z-10" />
-              <div className="absolute inset-0 flex items-center justify-center z-20">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent" />
+              <div className="relative h-full p-8 flex flex-col justify-between">
                 <div className="w-14 h-14 rounded-full glass-panel flex items-center justify-center group-hover:scale-110 transition-transform duration-300 glow-gold">
                   <Play size={20} className="text-primary ml-1" />
                 </div>
+
+                <div>
+                  <p className="font-heading text-[11px] tracking-[0.28em] uppercase text-primary/70 mb-3">Faixa essencial</p>
+                  <h3 className="font-display text-3xl font-bold mb-4">{song.title}</h3>
+                  <p className="text-sm text-foreground/65 leading-relaxed">{song.description}</p>
+                </div>
               </div>
-              <div className="absolute bottom-4 left-4 right-4 z-20">
-                <span className="font-heading text-xs tracking-wider text-foreground/80">{video.title}</span>
-              </div>
-            </motion.a>
+            </motion.div>
           ))}
         </div>
       </div>
