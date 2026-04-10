@@ -1,4 +1,6 @@
-export type MediaCategory = "image" | "video" | "document";
+import type { MediaCategory } from "@/content/media-kit-categories";
+
+export type { MediaCategory };
 
 export type MediaEntry = {
   id: string;

@@ -125,6 +125,15 @@ const Scene = () => {
 };
 
 const Model3DViewer = () => {
+  const [instruction, setInstruction] = useState("Mova o mouse para interagir");
+
+  useEffect(() => {
+    const isTouchDevice =
+      window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window;
+
+    setInstruction(isTouchDevice ? "Toque e arraste para interagir" : "Mova o mouse para interagir");
+  }, []);
+
   return (
     <div className="w-full h-[400px] md:h-[500px] lg:h-[550px] relative">
       {/* Glow backdrop */}
@@ -146,7 +155,7 @@ const Model3DViewer = () => {
       {/* Instruction label */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
         <span className="font-heading text-[10px] tracking-[0.2em] uppercase text-muted-foreground/60 glass-panel px-4 py-1.5 rounded-full">
-          Mova o celular ou mouse para interagir
+          {instruction}
         </span>
       </div>
     </div>

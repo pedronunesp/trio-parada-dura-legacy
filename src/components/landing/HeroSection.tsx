@@ -41,7 +41,7 @@ const platformLinks = [
 ];
 
 const primaryButtonClass =
-  "font-heading text-[11px] md:text-sm tracking-[0.18em] md:tracking-widest uppercase px-5 md:px-8 py-2.5 md:py-4 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary transition-all duration-300 glow-gold inline-flex items-center justify-center gap-2 md:gap-3";
+  "font-heading text-[11px] md:text-sm tracking-[0.14em] md:tracking-widest uppercase px-4 md:px-8 py-2.5 md:py-4 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary transition-all duration-300 glow-gold inline-flex items-center justify-center gap-2 md:gap-3";
 
 const HeroSection = () => {
   const [contactOpen, setContactOpen] = useState(false);
@@ -59,6 +59,17 @@ const HeroSection = () => {
 
     void loadContacts();
   }, []);
+
+  useEffect(() => {
+    if (!contactOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [contactOpen]);
 
   return (
     <>
@@ -100,7 +111,7 @@ const HeroSection = () => {
               e presença viva nos palcos, no streaming e na memória afetiva do Brasil.
             </p>
 
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-2.5 md:gap-4 mb-6 md:mb-10">
+            <div className="flex flex-row flex-wrap items-center justify-center gap-2.5 md:gap-4 mb-6 md:mb-10 max-w-[22rem] md:max-w-none mx-auto">
               <Link to="/midiakit" className={primaryButtonClass}>
                 Acessar Mídia Kit
                 <ArrowRight size={16} />
@@ -180,53 +191,74 @@ const HeroSection = () => {
       </section>
 
       {contactOpen && (
-        <div className="fixed inset-0 z-[70] bg-background/80 backdrop-blur-md flex items-center justify-center p-6">
-          <div className="glass-panel-strong rounded-3xl w-full max-w-3xl p-6 md:p-8 relative">
-            <button
-              type="button"
-              onClick={() => setContactOpen(false)}
-              className="absolute right-4 top-4 text-muted-foreground hover:text-foreground"
-              aria-label="Fechar"
-            >
-              <X size={20} />
-            </button>
+        <div
+          className="fixed inset-0 z-[70] bg-background/80 backdrop-blur-md flex items-end md:items-center justify-center p-0 md:p-6"
+          onClick={() => setContactOpen(false)}
+        >
+          <div
+            className="glass-panel-strong rounded-t-[2rem] md:rounded-3xl w-full max-w-3xl max-h-[88vh] overflow-hidden relative"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex justify-center pt-3 md:hidden">
+              <span className="h-1.5 w-14 rounded-full bg-foreground/15" />
+            </div>
 
-            <p className="font-heading text-xs tracking-[0.3em] uppercase text-primary mb-3">
-              Solicitar Contato
-            </p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-3">
-              Escolha o setor desejado
-            </h2>
-            <p className="text-foreground/65 mb-8 max-w-2xl">
-              Selecione abaixo o contato ideal para seu atendimento. Esses canais são configuráveis pelo painel administrativo.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {contacts.length > 0 ? (
-                contacts.map((contact) => (
-                  <a
-                    key={contact.id}
-                    href={contact.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-2xl border border-primary/20 bg-background/30 p-5 hover:border-primary hover:bg-primary/10 transition-colors"
-                  >
-                    <div className="flex items-center justify-between gap-3 mb-3">
-                      <h3 className="font-heading text-sm uppercase tracking-[0.18em] text-foreground">
-                        {contact.name}
-                      </h3>
-                      <ArrowRight size={16} className="text-primary" />
-                    </div>
-                    <p className="text-sm text-foreground/65">
-                      {contact.description || "Canal configurado no painel administrativo."}
-                    </p>
-                  </a>
-                ))
-              ) : (
-                <div className="rounded-2xl border border-border/50 p-6 text-sm text-muted-foreground">
-                  Nenhum contato configurado no momento.
+            <div className="sticky top-0 z-10 border-b border-border/40 bg-background/88 backdrop-blur-xl px-4 pb-4 pt-3 md:px-8 md:pb-5 md:pt-6">
+              <p className="font-heading text-[11px] tracking-[0.3em] uppercase text-primary mb-2">
+                Solicitar Contato
+              </p>
+              <div className="flex items-start justify-between gap-4">
+                <div className="pr-8">
+                  <h2 className="font-display text-2xl md:text-4xl font-bold mb-2">
+                    Escolha o setor desejado
+                  </h2>
+                  <p className="text-sm md:text-base text-foreground/65">
+                    Selecione o atendimento ideal para seguir.
+                  </p>
                 </div>
-              )}
+                <button
+                  type="button"
+                  onClick={() => setContactOpen(false)}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors"
+                  aria-label="Fechar"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            </div>
+
+            <div className="overflow-y-auto px-4 pb-5 pt-4 md:px-8 md:pb-8 md:pt-6">
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
+                {contacts.length > 0 ? (
+                  contacts.map((contact) => (
+                    <a
+                      key={contact.id}
+                      href={contact.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-2xl border border-primary/20 bg-background/35 px-4 py-4 md:p-5 hover:border-primary hover:bg-primary/10 active:scale-[0.99] transition-all"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <h3 className="font-heading text-xs md:text-sm uppercase tracking-[0.18em] text-foreground mb-2">
+                            {contact.name}
+                          </h3>
+                          <p className="text-sm text-foreground/65 leading-relaxed">
+                            {contact.description || "Canal configurado no painel administrativo."}
+                          </p>
+                        </div>
+                        <span className="mt-1 inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-primary/25 bg-primary/10 text-primary">
+                          <ArrowRight size={16} />
+                        </span>
+                      </div>
+                    </a>
+                  ))
+                ) : (
+                  <div className="rounded-2xl border border-border/50 p-5 text-sm text-muted-foreground md:col-span-2">
+                    Nenhum contato configurado no momento.
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
