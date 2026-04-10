@@ -186,6 +186,8 @@ const ensureStorage = async () => {
   }
 };
 
+const buildDownloadUrl = (entryId) => `/api/media/${entryId}/download`;
+
 const readMediaEntries = async () => {
   await ensureStorage();
   const raw = await fs.readFile(metadataFile, "utf8");
@@ -200,6 +202,10 @@ const readMediaEntries = async () => {
       entry.originalName,
       entry.fileName,
     ),
+    downloadUrl: buildDownloadUrl(entry.id),
+    thumbnailUrl: entry.thumbnailUrl || null,
+    thumbnailFileName: entry.thumbnailFileName || null,
+    thumbnailMimeType: entry.thumbnailMimeType || null,
   }));
 };
 
@@ -264,6 +270,18 @@ app.get("/api/media", async (_req, res) => {
   res.json(entries);
 });
 
+app.get("/api/media/:id/download", async (req, res) => {
+  const entries = await readMediaEntries();
+  const target = entries.find((entry) => entry.id === req.params.id);
+
+  if (!target) {
+    res.status(404).json({ message: "Arquivo não encontrado." });
+    return;
+  }
+
+  res.download(path.join(storageDir, target.fileName), target.originalName);
+});
+
 app.get("/api/contacts", async (_req, res) => {
   const entries = await readContacts();
   res.json(entries);
@@ -302,43 +320,59 @@ app.post("/api/admin/logout", (_req, res) => {
   res.json({ authenticated: false });
 });
 
-app.post("/api/admin/media", requireAdmin, upload.single("file"), async (req, res) => {
-  if (!req.file) {
-    res.status(400).json({ message: "Arquivo obrigatório." });
-    return;
-  }
+app.post(
+  "/api/admin/media",
+  requireAdmin,
+  upload.fields([
+    { name: "file", maxCount: 1 },
+    { name: "thumbnail", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    const file = req.files?.file?.[0];
+    const thumbnail = req.files?.thumbnail?.[0];
 
-  const title = `${req.body.title || ""}`.trim() || req.file.originalname;
-  const description = `${req.body.description || ""}`.trim();
-  const category = normalizeMediaCategory(
-    req.body.category,
-    req.file.mimetype,
-    title,
-    req.file.originalname,
-  );
+    if (!file) {
+      res.status(400).json({ message: "Arquivo obrigatório." });
+      return;
+    }
 
-  const entry = {
-    id: crypto.randomUUID(),
-    title,
-    description,
-    category,
-    fileName: req.file.filename,
-    originalName: req.file.originalname,
-    mimeType: req.file.mimetype,
-    size: formatBytes(req.file.size),
-    sizeBytes: req.file.size,
-    format: path.extname(req.file.originalname).replace(".", "").toUpperCase() || req.file.mimetype,
-    updated: new Date().toISOString(),
-    publicUrl: `/uploads/${req.file.filename}`,
-    downloadUrl: `/uploads/${req.file.filename}`,
-  };
+    const title = `${req.body.title || ""}`.trim() || file.originalname;
+    const description = `${req.body.description || ""}`.trim();
+    const category = normalizeMediaCategory(
+      req.body.category,
+      file.mimetype,
+      title,
+      file.originalname,
+    );
 
-  const entries = await readMediaEntries();
-  entries.unshift(entry);
-  await writeMediaEntries(entries);
+    const entry = {
+      id: crypto.randomUUID(),
+      title,
+      description,
+      category,
+      fileName: file.filename,
+      originalName: file.originalname,
+      mimeType: file.mimetype,
+      size: formatBytes(file.size),
+      sizeBytes: file.size,
+      format: path.extname(file.originalname).replace(".", "").toUpperCase() || file.mimetype,
+      updated: new Date().toISOString(),
+      publicUrl: `/uploads/${file.filename}`,
+      downloadUrl: "",
+      thumbnailUrl: thumbnail ? `/uploads/${thumbnail.filename}` : null,
+      thumbnailFileName: thumbnail?.filename || null,
+      thumbnailMimeType: thumbnail?.mimetype || null,
+    };
 
-  res.status(201).json(entry);
-});
+    entry.downloadUrl = buildDownloadUrl(entry.id);
+
+    const entries = await readMediaEntries();
+    entries.unshift(entry);
+    await writeMediaEntries(entries);
+
+    res.status(201).json(entry);
+  },
+);
 
 app.get("/api/admin/contacts", requireAdmin, async (_req, res) => {
   const entries = await readContacts();
@@ -426,6 +460,14 @@ app.delete("/api/admin/media/:id", requireAdmin, async (req, res) => {
     await fs.unlink(path.join(storageDir, target.fileName));
   } catch {
     // no-op if file is already gone
+  }
+
+  if (target.thumbnailFileName) {
+    try {
+      await fs.unlink(path.join(storageDir, target.thumbnailFileName));
+    } catch {
+      // no-op if thumbnail is already gone
+    }
   }
 
   res.json({ success: true });

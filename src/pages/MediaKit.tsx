@@ -47,6 +47,40 @@ const getFileIcon = (mimeType: string) => {
   return File;
 };
 
+const scrollToFilesSection = () => {
+  const section = document.getElementById("files-section");
+  if (!section) return;
+
+  const topOffset = 150;
+  const top = section.getBoundingClientRect().top + window.scrollY - topOffset;
+  window.scrollTo({ top, behavior: "smooth" });
+};
+
+const getMediaPreview = (file: MediaEntry) => {
+  if (file.thumbnailUrl) {
+    return {
+      kind: "image" as const,
+      src: file.thumbnailUrl,
+    };
+  }
+
+  if (file.mimeType.startsWith("image/")) {
+    return {
+      kind: "image" as const,
+      src: file.publicUrl,
+    };
+  }
+
+  if (file.mimeType.startsWith("video/")) {
+    return {
+      kind: "video" as const,
+      src: file.publicUrl,
+    };
+  }
+
+  return null;
+};
+
 const MediaKit = () => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
@@ -142,7 +176,7 @@ const MediaKit = () => {
                     key={item.value}
                     onClick={() => {
                       setFilter(item.value);
-                      document.getElementById("files-section")?.scrollIntoView({ behavior: "smooth" });
+                      requestAnimationFrame(() => scrollToFilesSection());
                     }}
                     className="glass-panel hover-lift rounded-xl p-4 flex flex-col items-center justify-center gap-3 transition-colors hover:bg-primary/10 border border-primary/20 hover:border-primary/50"
                   >
@@ -218,7 +252,7 @@ const MediaKit = () => {
           </div>
         </section>
 
-        <section id="files-section" className="section-padding py-8 pb-24">
+        <section id="files-section" className="section-padding py-8 pb-24 scroll-mt-40">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between mb-6">
               <p className="text-sm text-muted-foreground">
@@ -241,6 +275,7 @@ const MediaKit = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {filtered.map((file, index) => {
                   const Icon = getFileIcon(file.mimeType);
+                  const preview = getMediaPreview(file);
 
                   return (
                     <motion.div
@@ -250,8 +285,21 @@ const MediaKit = () => {
                       transition={{ duration: 0.4, delay: index * 0.04 }}
                       className="glass-panel rounded-2xl overflow-hidden hover-lift group"
                     >
-                      <div className="h-36 bg-muted/30 flex items-center justify-center relative">
-                        <Icon size={36} className="text-primary/40 group-hover:text-primary/60 transition-colors" />
+                      <div className="h-36 bg-muted/30 flex items-center justify-center relative overflow-hidden">
+                        {preview?.kind === "image" ? (
+                          <img src={preview.src} alt={file.title} className="h-full w-full object-cover" loading="lazy" />
+                        ) : preview?.kind === "video" ? (
+                          <video
+                            src={preview.src}
+                            className="h-full w-full object-cover"
+                            muted
+                            playsInline
+                            preload="metadata"
+                          />
+                        ) : (
+                          <Icon size={36} className="text-primary/40 group-hover:text-primary/60 transition-colors" />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
                         <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
                           <button
                             onClick={() => handleCopyLink(file)}
@@ -282,18 +330,19 @@ const MediaKit = () => {
                         </div>
                         <div className="mt-3 flex gap-2">
                           <a
-                            href={file.downloadUrl}
-                            className="flex-1 inline-flex items-center justify-center gap-1.5 text-xs font-heading tracking-wider uppercase px-3 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
-                          >
-                            <Download size={12} /> Baixar
-                          </a>
-                          <a
                             href={file.publicUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center p-2 rounded-lg text-muted-foreground hover:text-foreground glass-panel transition-colors"
+                            className="flex-1 inline-flex items-center justify-center gap-1.5 text-xs font-heading tracking-wider uppercase px-3 py-2 rounded-lg border border-border/60 text-foreground hover:bg-muted/30 transition-colors"
                           >
-                            <ExternalLink size={12} />
+                            <ExternalLink size={12} /> Preview
+                          </a>
+                          <a
+                            href={file.downloadUrl}
+                            download={file.originalName}
+                            className="flex-1 inline-flex items-center justify-center gap-1.5 text-xs font-heading tracking-wider uppercase px-3 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                          >
+                            <Download size={12} /> Baixar
                           </a>
                         </div>
                       </div>
@@ -334,12 +383,13 @@ const MediaKit = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="p-2 rounded-lg hover:bg-muted/30 text-muted-foreground hover:text-foreground transition-colors"
-                          title="Abrir"
+                          title="Preview"
                         >
                           <ExternalLink size={14} />
                         </a>
                         <a
                           href={file.downloadUrl}
+                          download={file.originalName}
                           className="p-2 rounded-lg hover:bg-muted/30 text-primary transition-colors"
                           title="Baixar"
                         >

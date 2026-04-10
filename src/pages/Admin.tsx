@@ -48,11 +48,17 @@ const Admin = () => {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState<MediaCategory>("fotos");
   const [file, setFile] = useState<File | null>(null);
+  const [thumbnail, setThumbnail] = useState<File | null>(null);
 
   const selectedFileLabel = useMemo(() => {
     if (!file) return "Nenhum arquivo selecionado";
     return `${file.name} · ${(file.size / 1024 / 1024).toFixed(2)} MB`;
   }, [file]);
+
+  const selectedThumbnailLabel = useMemo(() => {
+    if (!thumbnail) return "Nenhuma thumbnail selecionada";
+    return `${thumbnail.name} · ${(thumbnail.size / 1024 / 1024).toFixed(2)} MB`;
+  }, [thumbnail]);
 
   const resetContactForm = () => {
     setContactForm(emptyContactForm);
@@ -147,6 +153,7 @@ const Admin = () => {
         description: description.trim(),
         category,
         file,
+        thumbnail,
       });
 
       setEntries((current) => [created, ...current]);
@@ -154,6 +161,7 @@ const Admin = () => {
       setDescription("");
       setCategory("fotos");
       setFile(null);
+      setThumbnail(null);
       toast({ title: "Upload concluído", description: created.title });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Não foi possível enviar o arquivo.";
@@ -332,6 +340,17 @@ const Admin = () => {
                           required
                         />
                         <p className="text-xs text-muted-foreground">{selectedFileLabel}</p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="thumbnail">Thumbnail</Label>
+                        <Input
+                          id="thumbnail"
+                          type="file"
+                          accept="image/*"
+                          onChange={(event) => setThumbnail(event.target.files?.[0] || null)}
+                        />
+                        <p className="text-xs text-muted-foreground">{selectedThumbnailLabel}</p>
                       </div>
 
                       <Button type="submit" className="w-full" disabled={uploading}>

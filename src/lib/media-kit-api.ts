@@ -16,6 +16,9 @@ export type MediaEntry = {
   updated: string;
   publicUrl: string;
   downloadUrl: string;
+  thumbnailUrl?: string | null;
+  thumbnailFileName?: string | null;
+  thumbnailMimeType?: string | null;
 };
 
 export type ContactChannel = {
@@ -81,12 +84,16 @@ export const mediaKitApi = {
     description: string;
     category: MediaCategory;
     file: File;
+    thumbnail?: File | null;
   }) => {
     const formData = new FormData();
     formData.append("title", payload.title);
     formData.append("description", payload.description);
     formData.append("category", payload.category);
     formData.append("file", payload.file);
+    if (payload.thumbnail) {
+      formData.append("thumbnail", payload.thumbnail);
+    }
 
     return apiFetch<MediaEntry>("/api/admin/media", {
       method: "POST",

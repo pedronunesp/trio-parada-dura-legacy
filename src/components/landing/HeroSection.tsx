@@ -41,7 +41,7 @@ const platformLinks = [
 ];
 
 const primaryButtonClass =
-  "font-heading text-[11px] md:text-sm tracking-[0.14em] md:tracking-widest uppercase px-4 md:px-8 py-2.5 md:py-4 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary transition-all duration-300 glow-gold inline-flex items-center justify-center gap-2 md:gap-3";
+  "font-heading text-[10px] md:text-sm tracking-[0.08em] md:tracking-widest uppercase px-3 md:px-8 py-2.5 md:py-4 rounded-2xl md:rounded-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary transition-all duration-300 glow-gold inline-flex items-center justify-center gap-1.5 md:gap-3 text-center leading-tight min-h-[4.5rem] md:min-h-0";
 
 const HeroSection = () => {
   const [contactOpen, setContactOpen] = useState(false);
@@ -111,7 +111,7 @@ const HeroSection = () => {
               e presença viva nos palcos, no streaming e na memória afetiva do Brasil.
             </p>
 
-            <div className="flex flex-row flex-wrap items-center justify-center gap-2.5 md:gap-4 mb-6 md:mb-10 max-w-[22rem] md:max-w-none mx-auto">
+            <div className="grid grid-cols-3 gap-2.5 md:flex md:flex-row md:flex-wrap md:items-center md:justify-center md:gap-4 mb-6 md:mb-10 max-w-[22rem] md:max-w-none mx-auto">
               <Link to="/midiakit" className={primaryButtonClass}>
                 Acessar Mídia Kit
                 <ArrowRight size={16} />
