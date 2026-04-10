@@ -41,7 +41,7 @@ const platformLinks = [
 ];
 
 const primaryButtonClass =
-  "font-heading text-[10px] md:text-sm tracking-[0.08em] md:tracking-widest uppercase px-3 md:px-8 py-2.5 md:py-4 rounded-2xl md:rounded-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary transition-all duration-300 glow-gold inline-flex items-center justify-center gap-1.5 md:gap-3 text-center leading-tight min-h-[4.5rem] md:min-h-0";
+  "font-heading text-[9px] sm:text-[10px] md:text-sm tracking-[0.04em] md:tracking-widest uppercase px-2.5 sm:px-3 md:px-8 py-2 sm:py-2.5 md:py-4 rounded-2xl md:rounded-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary transition-all duration-300 glow-gold inline-flex items-center justify-center gap-1 md:gap-3 text-center leading-tight min-h-[3.6rem] sm:min-h-[4rem] md:min-h-0";
 
 const HeroSection = () => {
   const [contactOpen, setContactOpen] = useState(false);
@@ -73,7 +73,7 @@ const HeroSection = () => {
 
   return (
     <>
-      <section id="contato" className="relative min-h-screen overflow-hidden flex items-center justify-center py-32">
+      <section id="contato" className="relative min-h-[100svh] overflow-hidden flex items-center justify-center pt-20 pb-8 md:py-32">
         <div className="absolute inset-0">
           <img
             src={heroBand}
@@ -94,11 +94,11 @@ const HeroSection = () => {
             transition={{ duration: 0.8 }}
             className="max-w-5xl mx-auto text-center"
           >
-            <span className="font-heading text-xs md:text-sm tracking-[0.3em] uppercase text-primary/80 mb-6 block">
+            <span className="font-heading text-[10px] sm:text-xs md:text-sm tracking-[0.24em] md:tracking-[0.3em] uppercase text-primary/80 mb-3 md:mb-6 block">
               Mais de 50 anos de história
             </span>
 
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold mb-6 leading-[0.9] tracking-tight">
+            <h1 className="font-display text-[2.8rem] sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold mb-3 md:mb-6 leading-[0.86] md:leading-[0.9] tracking-tight">
               <span className="text-gradient-gold glow-gold-text">TRIO</span>
               <br />
               <span className="text-foreground">PARADA</span>
@@ -106,32 +106,32 @@ const HeroSection = () => {
               <span className="text-gradient-gold glow-gold-text">DURA</span>
             </h1>
 
-            <p className="font-body text-base md:text-lg text-foreground/70 max-w-2xl mx-auto mb-12 leading-relaxed">
+            <p className="font-body text-[13px] sm:text-sm md:text-lg text-foreground/70 max-w-[19rem] sm:max-w-xl md:max-w-2xl mx-auto mb-4 md:mb-12 leading-snug md:leading-relaxed">
               Os "Rolling Stones do Sertão" seguem no reinado com clássicos imortais, formação atual forte
               e presença viva nos palcos, no streaming e na memória afetiva do Brasil.
             </p>
 
-            <div className="grid grid-cols-3 gap-2.5 md:flex md:flex-row md:flex-wrap md:items-center md:justify-center md:gap-4 mb-6 md:mb-10 max-w-[22rem] md:max-w-none mx-auto">
+            <div className="grid grid-cols-3 gap-2 md:flex md:flex-row md:flex-wrap md:items-center md:justify-center md:gap-4 mb-2 md:mb-10 max-w-[19rem] sm:max-w-[22rem] md:max-w-none mx-auto">
               <Link to="/midiakit" className={primaryButtonClass}>
                 Acessar Mídia Kit
-                <ArrowRight size={16} />
+                <ArrowRight size={14} />
               </Link>
 
               <a href="/conheca-sua-historia.html" className={primaryButtonClass}>
                 Conheça Sua História
-                <ArrowRight size={16} />
+                <ArrowRight size={14} />
               </a>
 
               <button type="button" onClick={() => setContactOpen(true)} className={primaryButtonClass}>
                 Solicitar Contato
-                <ArrowRight size={16} />
+                <ArrowRight size={14} />
               </button>
             </div>
 
-            <div className="relative z-10 w-full max-w-4xl mx-auto mb-10">
+            <div className="relative z-10 w-full max-w-4xl mx-auto mb-4 md:mb-10">
               <Suspense
                 fallback={
-                  <div className="w-full h-[400px] md:h-[500px] flex items-center justify-center">
+                  <div className="w-full h-[220px] sm:h-[280px] md:h-[500px] flex items-center justify-center">
                     <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
                   </div>
                 }
@@ -140,7 +140,7 @@ const HeroSection = () => {
               </Suspense>
             </div>
 
-            <div className="mb-10 flex justify-center">
+            <div className="mb-6 md:mb-10 flex justify-center">
               <div className="relative inline-flex items-center justify-center px-8 py-6">
                 <div
                   className="absolute inset-0 rounded-[2rem] opacity-90 blur-3xl"
@@ -158,16 +158,16 @@ const HeroSection = () => {
                 <img
                   src="/telefone_mudo.png"
                   alt="Logo Telefone Mudo Promoções"
-                  className="relative z-10 w-full max-w-[280px] md:max-w-[340px] h-auto object-contain drop-shadow-[0_0_24px_rgba(245,184,52,0.22)]"
+                  className="relative z-10 w-full max-w-[210px] sm:max-w-[250px] md:max-w-[340px] h-auto object-contain drop-shadow-[0_0_24px_rgba(245,184,52,0.22)]"
                 />
               </div>
             </div>
 
-            <div className="glass-panel rounded-3xl p-6 md:p-8 max-w-4xl mx-auto">
-              <p className="font-heading text-xs tracking-[0.3em] uppercase text-primary mb-5">
+            <div className="glass-panel rounded-3xl p-4 sm:p-5 md:p-8 max-w-4xl mx-auto">
+              <p className="font-heading text-[10px] md:text-xs tracking-[0.24em] md:tracking-[0.3em] uppercase text-primary mb-4 md:mb-5">
                 Plataformas Oficiais
               </p>
-              <div className="flex flex-wrap items-center justify-center gap-3">
+              <div className="flex flex-wrap items-center justify-center gap-2.5 md:gap-3">
                 {platformLinks.map((platform) => {
                   const Icon = platform.icon;
 
@@ -177,9 +177,9 @@ const HeroSection = () => {
                       href={platform.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-background/35 px-5 py-3 text-sm text-foreground hover:border-primary hover:bg-primary/10 transition-colors"
+                      className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-background/35 px-3.5 sm:px-4 md:px-5 py-2.5 md:py-3 text-xs md:text-sm text-foreground hover:border-primary hover:bg-primary/10 transition-colors"
                     >
-                      <Icon size={16} className="text-primary" />
+                      <Icon size={14} className="text-primary" />
                       <span>{platform.label}</span>
                     </a>
                   );
@@ -196,7 +196,7 @@ const HeroSection = () => {
           onClick={() => setContactOpen(false)}
         >
           <div
-            className="glass-panel-strong rounded-t-[2rem] md:rounded-3xl w-full max-w-3xl max-h-[88vh] overflow-hidden relative"
+            className="glass-panel-strong rounded-t-[2rem] md:rounded-3xl w-full max-w-3xl h-[88vh] md:h-auto md:max-h-[88vh] overflow-hidden relative flex flex-col"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex justify-center pt-3 md:hidden">
@@ -227,7 +227,7 @@ const HeroSection = () => {
               </div>
             </div>
 
-            <div className="overflow-y-auto px-4 pb-5 pt-4 md:px-8 md:pb-8 md:pt-6">
+            <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 pb-5 pt-4 md:px-8 md:pb-8 md:pt-6 [touch-action:pan-y]">
               <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
                 {contacts.length > 0 ? (
                   contacts.map((contact) => (

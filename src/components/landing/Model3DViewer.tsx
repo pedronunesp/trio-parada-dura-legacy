@@ -135,10 +135,10 @@ const Model3DViewer = () => {
   }, []);
 
   return (
-    <div className="w-full h-[400px] md:h-[500px] lg:h-[550px] relative">
+    <div className="w-full h-[220px] sm:h-[280px] md:h-[500px] lg:h-[550px] relative">
       {/* Glow backdrop */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-64 h-64 md:w-96 md:h-96 rounded-full opacity-20" style={{ background: "var(--gradient-radial-gold)" }} />
+        <div className="w-44 h-44 sm:w-56 sm:h-56 md:w-96 md:h-96 rounded-full opacity-20" style={{ background: "var(--gradient-radial-gold)" }} />
       </div>
 
       <Canvas
@@ -153,8 +153,8 @@ const Model3DViewer = () => {
       </Canvas>
 
       {/* Instruction label */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
-        <span className="font-heading text-[10px] tracking-[0.2em] uppercase text-muted-foreground/60 glass-panel px-4 py-1.5 rounded-full">
+      <div className="absolute bottom-2 md:bottom-4 left-1/2 -translate-x-1/2">
+        <span className="font-heading text-[9px] md:text-[10px] tracking-[0.12em] md:tracking-[0.2em] uppercase text-muted-foreground/60 glass-panel px-3 md:px-4 py-1.5 rounded-full whitespace-nowrap">
           {instruction}
         </span>
       </div>
