@@ -96,8 +96,8 @@ const HeroSection = () => {
             </h1>
 
             <p className="font-body text-base md:text-lg text-foreground/70 max-w-2xl mx-auto mb-12 leading-relaxed">
-              O legado sertanejo que atravessa gerações com clássicos imortais, presença forte nos palcos
-              e uma história marcante na música brasileira.
+              Os "Rolling Stones do Sertão" seguem no reinado com clássicos imortais, formação atual forte
+              e presença viva nos palcos, no streaming e na memória afetiva do Brasil.
             </p>
 
             <div className="flex flex-col lg:flex-row items-center justify-center gap-4 mb-10">
@@ -127,6 +127,29 @@ const HeroSection = () => {
               >
                 <Model3DViewer />
               </Suspense>
+            </div>
+
+            <div className="mb-10 flex justify-center">
+              <div className="relative inline-flex items-center justify-center px-8 py-6">
+                <div
+                  className="absolute inset-0 rounded-[2rem] opacity-90 blur-3xl"
+                  style={{
+                    background:
+                      "radial-gradient(circle at center, hsl(38 75% 58% / 0.42) 0%, hsl(38 70% 52% / 0.22) 38%, transparent 72%)",
+                  }}
+                />
+                <div
+                  className="absolute inset-x-8 inset-y-6 rounded-[2rem] border border-primary/20"
+                  style={{
+                    boxShadow: "0 0 50px hsl(38 75% 58% / 0.18), inset 0 0 24px hsl(38 75% 58% / 0.08)",
+                  }}
+                />
+                <img
+                  src="/telefone_mudo.png"
+                  alt="Logo Telefone Mudo Promoções"
+                  className="relative z-10 w-full max-w-[280px] md:max-w-[340px] h-auto object-contain drop-shadow-[0_0_24px_rgba(245,184,52,0.22)]"
+                />
+              </div>
             </div>
 
             <div className="glass-panel rounded-3xl p-6 md:p-8 max-w-4xl mx-auto">

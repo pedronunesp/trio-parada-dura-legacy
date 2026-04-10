@@ -73,12 +73,9 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-border/30 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Trio Parada Dura. Todos os direitos reservados.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Site oficial · Contratações, imprensa e materiais institucionais
+        <div className="border-t border-border/30 pt-8 flex items-center justify-center">
+          <p className="text-xs text-muted-foreground text-center">
+            2026 Trio Parada Dura. Todos direitos reservados. Material de divulgação oficial.
           </p>
         </div>
       </div>
